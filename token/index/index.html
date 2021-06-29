@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/icon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="main.css">
+    <title>Starburst Coin</title>
+    <script src="app.js">
+        var totalBill=document.getElementById("bill");
+    </script>
+	<script language="javascript" type="text/javascript" src="web3.min.js"></script>
+    <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+	<!--<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>-->
+	<!--<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js%22%3E</script>-->
+	<!--<script src="QR.js"></script>-->
+	<script language="javascript" type="text/javascript" src="abi.js"></script>
+	
+</head>
+<body style="margin: 0px;"class="bg">
+    
+    <div class="head">Starburst Coin</div>
+    <div class="content_middle"><div class="box_middle">
+        <h2>這是一個虛擬貨幣的發行網站.</h2>
+        <p>我們準備發行一個虛擬貨幣，它叫做Starburst Coin，
+            發想於刀劍神域動畫第一季第十九集主角所使用的招式「Starbust Stream」，
+            台灣譯者翻譯成「星爆氣流斬」，但作者於《刀劍神域》中文小說第18集開始，
+            將招式名稱改為「星光連流擊」。
+            我們會選用這個名稱當作我們發行的虛擬貨幣名稱，並將虛擬幣的簡稱為「SBC」，
+            主要原因還是想將台灣翻譯的名稱再次發揚光大。
+        </p>
+        <!--<button id="btn" class="enableEthereumButton">連接</button>-->
+        <h2>帳戶: <span class="showAccount"></span></h2>
+        <h2>錢包SBC數量: <span class="showBalance"></span></h2>
+        <input type="button" id="btn" onclick=getCoin() value="領取虛擬幣"> 
+        <h2><span class="getStaus"></span></h2> 
+		
+    </div></div>
+
+    <div class="content">
+        <div><b>購買道具</b></div>
+        <div class="box">
+            <div class="title">逐暗者</div>
+            <img src="img/1.png" width=70% align="center" alt="逐暗者">
+            <div>價錢:0.4876</div>
+            <div class="content_middle">
+                <input type="button" id="btn" onclick=btn_sub(1) value="-">
+                數量: <input type="number" id="input"class="item01" min="0" value=0>
+                <input type="button" id="btn" onclick=btn_add(1) value="+">
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="title">闡釋者</div>
+            <img src="img/2.png" width=70% align="center" alt="闡釋者">
+            <div>價錢:0.8763</div>
+            <div class="content_middle">
+                <input type="button" id="btn" onclick=btn_sub(2) value="-">
+                數量: <input type="number" id="input"class="item02" min="0" value=0>
+                <input type="button" id="btn" onclick=btn_add(2) value="+">
+            </div>
+        </div> 
+        <div class="box">
+            <div class="title">十字劍盾</div>            
+            <img src="img/3.png" width=70% align="center" alt="十字劍盾">
+            <div>價錢:0.7634</div>
+            <div class="content_middle">
+                <input type="button" id="btn" onclick=btn_sub(3) value="-">
+                數量: <input type="number" id="input"class="item03" min="0" value=0> 
+                <input type="button" id="btn" onclick=btn_add(3) value="+">
+            </div>
+        </div> 
+        <div class="content_middle">
+            結帳金額:<label id="bill">0</label>
+        </div>
+        <div class="content_middle">
+        <h2><span class="Results"></span></h2>
+        </div>
+        <div class="content_middle">
+            <input type="button" id="btn" onclick=bill() value="結帳">
+        </div>
+        <div class="space">
+            /n/n/n
+        </div>
+    </div>
+	
+	<script>
+		var userAccount = null;
+        var userAccounts = null;
+        var balances_last =0
+        var balances =0
+        var web3
+        const ethereumButton = document.querySelector('.enableEthereumButton');
+		const showAccount = document.querySelector('.showAccount');
+        const showBalance = document.querySelector('.showBalance');
+        const Results = document.querySelector('.Results');
+        const getStaus = document.querySelector('.getStaus')
+
+        
+        async function getAccount(){
+            if (typeof window.ethereum !== 'undefined'){
+               
+                userAccounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                                
+                balances_last = GetSBCBalance(userAccounts[0]).then(function(value){
+                    console.log(value);
+                    balances_last=value;
+                });               
+        }          
+        } 
+        
+
+		function startApp() {
+
+            
+                           
+			var ContractAddress = "0x2E664e668697AcE4A27ac76760A8Ce9034ef7b93";
+			ContractSBC = new web3.eth.Contract(SBCABI, ContractAddress);
+			
+            
+
+			var accountInterval = setInterval(function() {
+                //console.log(userAccounts[0]);
+                //console.log(userAccount);
+                getAccount();
+                if (userAccounts[0] !== userAccount || balances_last != balances ) {
+                    
+
+                    userAccount = userAccounts[0];
+                    showAccount.innerHTML = userAccount;                    
+                    
+                   
+
+                    GetSBCBalance(userAccount)
+                    .then(displaySBC);
+                }
+			}, 100);
+        
+			
+		}
+
+        /*
+        ethereumButton.addEventListener('click',() =>{
+            getAccount();
+        });
+		*/
+        
+        
+        window.addEventListener('load',async function() {
+            //var provider = await detectEthereumProvider();
+            //console.log(provider);
+            getAccount();
+            startApp();
+            
+        })
+
+        function GetSBCBalance(userAccount) {
+            return ContractSBC.methods.balanceOfG(userAccount).call();
+        }
+
+        function displaySBC(balance) {            
+            balance=parseFloat(balance);
+            showBalance.innerHTML = balance/10000;
+        }
+        
+        
+        if (typeof window.ethereum !== 'undefined') {
+            //var web3 = new Web3(web3.currentProvider);
+            var web3 = new Web3(window.ethereum)
+            console.log(web3);
+        } else {
+            // set the provider you want from Web3.providers
+            
+            var web3 = new Web3(new Web3.providers.HttpProvider(
+                'https://rinkeby.infura.io/v3/292c13e450fc403888f9c6d12b50c893'
+            ));
+            console.log(web3);
+        }
+        
+        
+					  
+
+	  
+        
+        function getCoin(){ //領取虛擬幣
+            console.log(userAccount);
+            ContractSBC.methods.mint(userAccount,50000).send({ from:userAccount}, function (err, res) {
+            if (err) {
+                getStaus.innerHTML = "領取失敗，請確認是否有足夠的代幣。"
+                return;
+            }
+                getStaus.innerHTML = ("領取成功\n產生hash:"+res);
+                
+            });
+        }
+            
+        function bill(){ //結帳
+            if(totalBill == null){
+                totalBill=0;
+            }
+            finalBill=parseFloat(totalBill.innerHTML*10000).toFixed(0);
+            console.log(totalBill.innerHTML);
+            console.log(finalBill);
+            if(finalBill==0||totalBill==0){
+                Results.innerHTML = "請選取商品";
+            }
+            else{
+                ContractSBC.methods.transfer('0xDaB4ECe06b0aE4b5cC5E944e6C7B8959bA3934B3',finalBill).send({ from: userAccount }, function (err, res) {
+                if (err) {
+                    Results.innerHTML = "交易失敗，請確認是否有足夠的代幣。"
+                    return;
+                }
+                    Results.innerHTML = ("產生hash:"+res);
+                    GetSBCBalance(userAccount)
+                    .then(displaySBC);
+                    
+                });
+            }
+        }
+	
+    </script>
+	
+</body>
+</html>

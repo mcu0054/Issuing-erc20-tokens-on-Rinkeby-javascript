@@ -1,0 +1,123 @@
+body{/*主體的文字*/
+    font-family: "微軟正黑體";
+    font-size: 20px;
+    background: var(--bg);
+}
+
+.light-theme{/*亮色主題*/
+    --bg: var(--blue);
+    --fontColor: var(--black);
+    --btnBg: var(--black);
+    --btnFontColor: var(--white);
+}
+  
+.dark-theme{/*暗色主題*/
+    --bg: var(--black);
+    --fontColor: var(--blue);
+    --btnBg: var(--white);
+    --btnFontColor: var(--black);
+}
+
+
+.bg{/*背景*/
+    /*width: 100%;*/
+    /*height:100%;*/
+    background-image:url(img/c8763.jpg);
+    background-repeat:no-repeat;
+    border:0px #ccc solid;
+    background-size: cover;
+}
+
+.head{/*主標題文字*/
+    background-color: black;
+    color:cyan;
+    font-weight: bold;
+    font-size: 40px;
+    text-align: left;
+    padding:10px;
+}
+
+.title{/*粗體字*/
+    font-weight: bold;
+}
+
+.content{/*div上層內容格式*/
+    width:100%;
+    margin-left:  auto;
+    margin-right: auto;
+    background-color: rgba(255, 255, 255, 0.493);
+}
+.content_middle{
+    width:100%;
+    margin-left:  auto;
+    margin-right: auto;
+    text-align: center;
+}
+.content_left{
+    width:100%;
+    margin-left:  auto;
+    margin-right: auto;
+    text-align: left;
+}
+.box_middle{
+    text-align: center;
+    width: 55%;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.493);
+    display:inline-block;
+    vertical-align: top;
+}
+.box_middle2{/*div下層水平均分30%格式，padding=0*/
+    text-align: center;
+    width: 30%;
+    padding: 0px;
+    margin: 5px;
+    background-color: rgba(255, 255, 255, 0.493);
+    display:inline-block;
+    vertical-align: top;
+}
+.box{/*div下層水平均分30%格式*/
+    width: 30%;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.493);
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+}
+
+#btn{/*+-的按鈕外觀*/
+    border: 1px solid black;
+    background-color: black;
+    font-size: 20px;
+    color:cyan;
+    width:20%;
+    height: 30px;
+}
+#btn:hover{/*碰到按鈕的反應*/
+    background-color: cyan;
+    color:black;
+}
+
+.from_control{
+    border: 0px;
+    background-color:rgba(240, 255, 255, 0);
+    text-align: left;
+    font-size: 20px;
+    width: 5%;
+}
+
+#input{
+    font-size: 20px;
+    height: 25px;
+    width: 30%;
+}
+input:focus{/*點到輸入框的反應*/
+    border: 3px solid cyan;
+}
+
+.space{
+    height:10%;
+    color: rgba(255, 255, 255, 0);
+}
